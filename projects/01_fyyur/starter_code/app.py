@@ -237,6 +237,8 @@ def create_venue_form():
 def create_venue_submission():
   # TODO: insert form data as a new Venue record in the db, instead
   # TODO: modify data to be the data object returned from db insertion
+  error = False
+
   try:
     form = VenueForm(request.form)
     venue = Venue(
@@ -256,14 +258,18 @@ def create_venue_submission():
     db.session.commit()
 
     # on successful db insert, flash success
-    flash('Venue ' + request.form['name'] + ' was successfully listed!')
   except:
+    error = True
     db.session.rollback()
     # TODO: on unsuccessful db insert, flash an error instead.
-    flash('An error occurred. Venue ' + request.form['name'] + ' could not be listed.')
+    print(sys.exc_info())
   finally:
     db.session.close()
-    return render_template('pages/home.html')
+  if error:
+    flash('An error occurred. Venue ' + request.form['name'] + ' could not be created.')
+  else:
+    flash('Venue ' + request.form['name'] + ' was successfully created!')
+  return render_template('pages/home.html')
 
 # Delete Venue
 
@@ -276,6 +282,7 @@ def delete_venue(venue_id):
   # clicking that button delete it from the db then redirect the user to the homepage
 
   error = False
+
   try:
     venue = Venue.query.get(venue_id)
     db.session.delete(venue)
@@ -288,8 +295,8 @@ def delete_venue(venue_id):
     db.session.close()
   if error:
     flash(f'An error occurred. Venue {venue_id} could not be deleted.')
-  if not error:
-    flash(f'Venue {venue_id} was successfully deleted.')
+  else:
+    flash('Venue ' + request.form['name'] + ' was successfully deleted!')
   return render_template('pages/home.html')
 
 #  Artists
@@ -419,12 +426,13 @@ def edit_artist(artist_id):
 def edit_artist_submission(artist_id):
   # TODO: take values from the form submitted, and update existing
   # artist record with ID <artist_id> using the new attributes
-
-  form = ArtistForm(request.form)
-
-  artist = Artist.query.get(artist_id)
+  error = False
 
   try:
+    form = ArtistForm(request.form)
+
+    artist = Artist.query.get(artist_id)
+
     artist.name = form.name.data
     artist.genres = form.genres.data
     artist.city = form.city.data
@@ -437,15 +445,16 @@ def edit_artist_submission(artist_id):
     artist.image_link = form.image_link.data
 
     db.session.commit()
-    flash('The Artist ' + request.form['name'] + ' has been updated successfully!')
   except:
+    error = True
     db.session.rollback()
     print(sys.exc.info())
-    flash('Error and fail to update artist ' + request.form['name'])
   finally:
     db.session.close()
-
-
+  if error:
+    flash('Error and fail to update artist ' + request.form['name'])
+  else:
+    flash('The Artist ' + request.form['name'] + ' has been updated successfully!')
   return redirect(url_for('show_artist', artist_id=artist_id))
 
 @app.route('/venues/<int:venue_id>/edit', methods=['GET'])
@@ -473,11 +482,13 @@ def edit_venue(venue_id):
 def edit_venue_submission(venue_id):
   # TODO: take values from the form submitted, and update existing
   # venue record with ID <venue_id> using the new attributes
-  form = VenueForm(request.form)
-
-  venue = Venue.query.get(venue_id)
+  error = False
 
   try:
+    form = VenueForm(request.form)
+
+    venue = Venue.query.get(venue_id)
+
     venue.name = form.name.data
     venue.genres = form.genres.data
     venue.address = form.address.data
@@ -491,15 +502,16 @@ def edit_venue_submission(venue_id):
     venue.image_link = form.image_link.data
 
     db.session.commit()
-    flash('The Venue ' + request.form['name'] + ' has been updated successfully')
   except:
+    error = True
     db.session.rollback()
-    flash('Error and fail to update venue ' + request.form['name'])
     print(sys.exc.info())
   finally:
     db.session.close()
-
-
+  if error:
+    flash('Error and fail to update venue ' + request.form['name'])
+  else:
+    flash('The Venue ' + request.form['name'] + ' has been updated successfully')
   return redirect(url_for('show_venue', venue_id=venue_id))
 
 #  Create Artist
@@ -515,6 +527,8 @@ def create_artist_submission():
   # called upon submitting the new artist listing form
   # TODO: insert form data as a new Venue record in the db, instead
   # TODO: modify data to be the data object returned from db insertion
+  error = False
+
   try:
     form = ArtistForm(request.form)
     artist = Artist(
@@ -533,14 +547,18 @@ def create_artist_submission():
     db.session.commit()
 
     # on successful db insert, flash success
-    flash('Artist ' + request.form['name'] + ' was successfully listed!')
   except:
+    error = True
     db.session.rollback()
+    print(sys.exc_info())
     # TODO: on unsuccessful db insert, flash an error instead.
-    flash('An error occurred. Artist ' + request.form['name'] + ' could not be listed.')
   finally:
     db.session.close()
-    return render_template('pages/home.html')
+  if error:
+    flash('An error occurred. Artist ' + request.form['name'] + ' could not be listed.')
+  else:
+    flash('Artist ' + request.form['name'] + ' was successfully listed!')
+  return render_template('pages/home.html')
 
 
 #  Shows
@@ -576,6 +594,8 @@ def create_shows():
 def create_show_submission():
   # called to create new shows in the db, upon submitting new show listing form
   # TODO: insert form data as a new Show record in the db, instead
+  error = False
+
   try:
     form = ShowForm(request.form)
     show = Show(
@@ -587,15 +607,19 @@ def create_show_submission():
     db.session.commit()
 
     # on successful db insert, flash success
-    flash('Show was successfully listed!')
   except:
+    error = True
     db.session.rollback()
+    print(sys.exc_info())
   # TODO: on unsuccessful db insert, flash an error instead.
-    flash('An error occurred. Show could not be listed.')
   # see: http://flask.pocoo.org/docs/1.0/patterns/flashing/
   finally:
     db.session.close()
-    return render_template('pages/home.html')
+  if error:
+    flash('An error occurred. Show could not be listed.')
+  else:
+    flash('Show was successfully listed!')
+  return render_template('pages/home.html')
 
 @app.errorhandler(404)
 def not_found_error(error):
