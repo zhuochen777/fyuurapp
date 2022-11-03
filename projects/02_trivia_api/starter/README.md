@@ -97,7 +97,7 @@ The API will return four error types when requests fail:
 
 ### End Points
 #### GET /categories
-Returns success value, all available trivia question categories including their id and type.
+Returns success value, all available trivia question categories including their id and type.\
 Sample: curl http://127.0.0.1:5000/categories
 ```
 {
@@ -113,7 +113,7 @@ Sample: curl http://127.0.0.1:5000/categories
 }
 ```
 #### GET /questions
-Returns success value, a list of questions, number of total questions, current category, categories. Results are paginated in groups of 10. Include a request argument to choose page number starting from 1.
+Returns success value, a list of questions, number of total questions, current category, categories. Results are paginated in groups of 10. Include a request argument to choose page number starting from 1.\
 Sample: curl http://127.0.0.1:5000/questions
 ```
 {
@@ -141,7 +141,7 @@ Sample: curl http://127.0.0.1:5000/questions
 }
 ```
 #### DELETE /questions/<int:question_id>
-Deletes the question of given id if exists. Returns success value, the id of the deleted book, total number of questions and the questions list.
+Deletes the question of given id if exists. Returns success value, the id of the deleted book, total number of questions and the questions list.\
 Sample: curl http://127.0.0.1:5000/questions/16 -X DELETE
 ```
 {
@@ -161,7 +161,7 @@ Sample: curl http://127.0.0.1:5000/questions/16 -X DELETE
 }
 ```
 #### POST /questions
-If search term exists in request, it returns success value, current category, total number of questions and the list of questions that contain search term in question value.
+If search term exists in request, it returns success value, current category, total number of questions and the list of questions that contain search term in question value.\
 Sample: curl http://127.0.0.1:5000/questions -X POST -H "Content-Type: application/json" -d '{"searchTerm": "better"}'
 ```
 {
@@ -180,7 +180,7 @@ Sample: curl http://127.0.0.1:5000/questions -X POST -H "Content-Type: applicati
   "total_questions": 22
 }
 ```
-If search term does not exists in request, it creates a new question based on request and returns success value, current category, question list, total number of questions.
+If search term does not exists in request, it creates a new question based on request and returns success value, current category, question list, total number of questions.\
 Sample: curl http://127.0.0.1:5000/questions -X POST -H "Content-Type: application/json" -d '{"question": "test question", "answer": "test answer", "category": "1", "difficulty": "1"}'
 ```
 {
@@ -200,7 +200,7 @@ Sample: curl http://127.0.0.1:5000/questions -X POST -H "Content-Type: applicati
 }
 ```
 #### GET /categories/<int:category_id>/questions
-Returns success value, current category, list of questions based on current category, total number of questions.
+Returns success value, current category, list of questions based on current category, total number of questions.\
 Sample: curl http://127.0.0.1:5000/categories/2/questions
 ```
 {
@@ -220,7 +220,7 @@ Sample: curl http://127.0.0.1:5000/categories/2/questions
 }
 ```
 #### POST /quizzes
-Generates a random quiz other than previously chosen one. If category is specified, pick the quiz from that category. If not, pick it from all categories.
+Generates a random quiz other than previously chosen one. If category is specified, pick the quiz from that category. If not, pick it from all categories.\
 Sample: curl http://127.0.0.1:5000/quizzes -X POST -H "Content-Type: application/json" -d '{"previous_questions": [18, 19], "quiz_category": {"id": 2, "type": "Art"}}'
 ```
 {
