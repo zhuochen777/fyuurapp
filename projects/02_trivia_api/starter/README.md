@@ -82,11 +82,13 @@ python3 test_flaskr.py
 
 ### Error Handling
 Errors are returned in JSON format as following:
+```
 {
   "error": 404,
   "message": "resource not found",
   "success": false
 }
+```
 The API will return four error types when requests fail:
 - 404: Resource Not Found
 - 422: Unprocessable
@@ -97,7 +99,7 @@ The API will return four error types when requests fail:
 #### GET /categories
 Returns success value, all available trivia question categories including their id and type.
 Sample: curl http://127.0.0.1:5000/categories
-
+```
 {
   "categories": {
     "1": "Science",
@@ -109,11 +111,11 @@ Sample: curl http://127.0.0.1:5000/categories
   },
   "success": true
 }
-
+```
 #### GET /questions
 Returns success value, a list of questions, number of total questions, current category, categories. Results are paginated in groups of 10. Include a request argument to choose page number starting from 1.
 Sample: curl http://127.0.0.1:5000/questions
-
+```
 {
   "categories": {
     "1": "Science",
@@ -137,11 +139,11 @@ Sample: curl http://127.0.0.1:5000/questions
   "success": true,
   "total_questions": 23
 }
-
+```
 #### DELETE /questions/<int:question_id>
 Deletes the question of given id if exists. Returns success value, the id of the deleted book, total number of questions and the questions list.
 Sample: curl http://127.0.0.1:5000/questions/16 -X DELETE
-
+```
 {
   "current_questions": [
     {
@@ -157,11 +159,11 @@ Sample: curl http://127.0.0.1:5000/questions/16 -X DELETE
   "success": true,
   "total_num_questions": 22
 }
-
+```
 #### POST /questions
 If search term exists in request, it returns success value, current category, total number of questions and the list of questions that contain search term in question value.
 Sample: curl http://127.0.0.1:5000/questions -X POST -H "Content-Type: application/json" -d '{"searchTerm": "better"}'
-
+```
 {
   "current_category": null,
   "questions": [
@@ -177,10 +179,10 @@ Sample: curl http://127.0.0.1:5000/questions -X POST -H "Content-Type: applicati
   "success": true,
   "total_questions": 22
 }
-
+```
 If search term does not exists in request, it creates a new question based on request and returns success value, current category, question list, total number of questions.
 Sample: curl http://127.0.0.1:5000/questions -X POST -H "Content-Type: application/json" -d '{"question": "test question", "answer": "test answer", "category": "1", "difficulty": "1"}'
-
+```
 {
   "current_category": 1,
   "questions": [
@@ -196,11 +198,11 @@ Sample: curl http://127.0.0.1:5000/questions -X POST -H "Content-Type: applicati
   "success": true,
   "total_questions": 23
 }
-
+```
 #### GET /categories/<int:category_id>/questions
 Returns success value, current category, list of questions based on current category, total number of questions.
 Sample: curl http://127.0.0.1:5000/categories/2/questions
-
+```
 {
   "current_category": 2,
   "questions": [
@@ -216,11 +218,11 @@ Sample: curl http://127.0.0.1:5000/categories/2/questions
   "success": true,
   "total_questions": 23
 }
-
+```
 #### POST /quizzes
 Generates a random quiz other than previously chosen one. If category is specified, pick the quiz from that category. If not, pick it from all categories.
 Sample: curl http://127.0.0.1:5000/quizzes -X POST -H "Content-Type: application/json" -d '{"previous_questions": [18, 19], "quiz_category": {"id": 2, "type": "Art"}}'
-
+```
 {
   "question": {
     "answer": "Mona Lisa",
@@ -231,3 +233,4 @@ Sample: curl http://127.0.0.1:5000/quizzes -X POST -H "Content-Type: application
   },
   "success": true
 }
+```
