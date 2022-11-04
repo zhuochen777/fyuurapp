@@ -40,7 +40,16 @@ source env/Scripts/activate
 ```
 
 ### Backend
-From the backend folder to install packages, run pip install requirements.txt
+From the backend folder to install packages, run:
+```
+pip install -r requirements.txt
+```
+
+If encounter error while installing psycopg2-binary, run:
+```
+pip install psycopg2-binary
+```
+
 
 To run the application run the following commands:
 ```
