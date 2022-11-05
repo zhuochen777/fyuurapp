@@ -14,8 +14,10 @@ class TriviaTestCase(unittest.TestCase):
         """Define test variables and initialize app."""
         self.app = create_app()
         self.client = self.app.test_client
-        self.database_name = "trivia_test"
-        self.database_path = "postgresql://{}@{}/{}".format('zhuochen', 'localhost:5432', self.database_name)
+        self.DB_HOST = os.getenv('DB_HOST', '127.0.0.1:5432')
+        self.DB_USER = os.getenv('DB_USER', 'zhuochen')
+        self.DB_NAME = os.getenv('DB_NAME', 'trivia')
+        self.database_path = "postgresql://{}@{}/{}".format(self.DB_USER, self.DB_HOST, self.DB_NAME)
         setup_db(self.app, self.database_path)
 
         # binds the app to the current context
@@ -97,7 +99,7 @@ class TriviaTestCase(unittest.TestCase):
         self.assertEqual(data['message'], 'method not allowed')
 
     def test_search_question(self):
-        res = self.client().post('/questions', json={'searchTerm': 'dutch'})
+        res = self.client().post('/questions', json={'searchTerm': 'q'})
         data = json.loads(res.data)
 
         self.assertEqual(res.status_code, 200)

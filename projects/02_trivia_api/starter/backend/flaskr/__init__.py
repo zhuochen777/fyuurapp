@@ -235,12 +235,12 @@ def create_app(test_config=None):
       quiz_category_id = quiz_category['id']
 
       if previous_questions is None:
-        if quiz_category_id is None:
+        if quiz_category_id == 0:
           questions = Question.query.all()
         else:
           questions = Question.query.filter(Question.category == quiz_category_id).all()
       else:
-        if quiz_category_id is None:
+        if quiz_category_id == 0:
           questions = Question.query.filter(Question.id.notin_(previous_questions)).all()
         else:
           questions = Question.query.filter(Question.category == quiz_category_id, Question.id.notin_(previous_questions)).all()
