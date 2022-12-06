@@ -55,7 +55,7 @@ class Drink(db.Model):
     # String Title
     title = Column(String(80), unique=True)
     # the ingredients blob - this stores a lazy json blob
-    # the required datatype is [{'color': string, 'name':string, 'parts':number}]
+    # the required datatype is {'color': string, 'name':string, 'parts':number}
     recipe = Column(String(180), nullable=False)
 
     '''
