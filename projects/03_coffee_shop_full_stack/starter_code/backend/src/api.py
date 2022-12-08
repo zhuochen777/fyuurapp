@@ -41,8 +41,7 @@ def get_drinks():
     except:
         abort(422)
 
-
-'''
+'''f'f'f'f'j'j'j
 @TODO implement endpoint
     GET /drinks-detail
         it should require the 'get:drinks-detail' permission
@@ -181,6 +180,14 @@ def unprocessable(error):
                     }), 404
 
 '''
+@app.errorhandler(404)
+def not_found(error):
+    return jsonify({
+        "success": False,
+        "error": 404,
+        "message": "resource not found"
+    }), 404
+
 
 '''
 @TODO implement error handler for 404
