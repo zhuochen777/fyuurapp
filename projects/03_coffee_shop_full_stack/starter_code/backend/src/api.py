@@ -76,8 +76,9 @@ def get_drinks_detail(payload):
 @app.route('/drinks', methods=['POST'])
 @requires_auth('post:drinks')
 def post_drinks(payload):
-    data = request.get_json()
     try:
+        data = request.get_json()
+
         drink_title = data.get('title')
         drink_recipe = json.dumps(data.get('recipe'))
 
@@ -109,27 +110,30 @@ def post_drinks(payload):
 @app.route('/drinks/<id>', methods=['PATCH'])
 @requires_auth('patch:drinks')
 def patch_drinks(payload, id):
-    drink = Drink.query.filter(Drink.id == id).first()
+    try:
+        drink = Drink.query.filter(Drink.id == id).first()
 
-    if drink is None:
-        abort(404)
+        if drink is None:
+            abort(404)
 
-    data = request.get_json()
-    drink_title = data.get('title')
-    drink_recipe = json.dumps(data.get('recipe'))
+        data = request.get_json()
+        drink_title = data.get('title')
+        drink_recipe = json.dumps(data.get('recipe'))
 
-    if drink_title:
-        drink.title = drink_title
+        if drink_title:
+            drink.title = drink_title
 
-    if drink_recipe:
-        drink.recipe = drink_recipe
+        if drink_recipe:
+            drink.recipe = drink_recipe
 
-    drink.update()
+        drink.update()
 
-    return jsonify({
-        'success': True,
-        'drinks': [drink.long()]
-    })
+        return jsonify({
+            'success': True,
+            'drinks': [drink.long()]
+        })
+    except:
+        abort(422)
 
 '''
 @TODO implement endpoint
@@ -144,16 +148,19 @@ def patch_drinks(payload, id):
 @app.route('/drinks/<id>', methods=['DELETE'])
 @requires_auth('delete:drinks')
 def delete_drinks(payload, id):
-    drink = Drink.query.filter(Drink.id == id).first()
+    try:
+        drink = Drink.query.filter(Drink.id == id).first()
 
-    if not drink:
-        abort(404)
+        if not drink:
+            abort(404)
 
-    drink.delete()
-    return jsonify({
-        'success': True,
-        'delete': id
-    })
+        drink.delete()
+        return jsonify({
+            'success': True,
+            'delete': id
+        })
+    except:
+        abort(422)
 
 # Error Handling
 '''
