@@ -41,7 +41,7 @@ def get_drinks():
     except:
         abort(422)
 
-'''f'f'f'f'j'j'j
+'''
 @TODO implement endpoint
     GET /drinks-detail
         it should require the 'get:drinks-detail' permission
